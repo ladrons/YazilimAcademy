@@ -1,0 +1,54 @@
+﻿@code {
+    /*
+    Pages, Layouts ve Components Klasörleri ve Anlamları.
+
+    Pages: 'Pages' klasörü, genellikle Blazor projenizdeki sayfaları içerir. Bu sayfalar, kullanıcı tarafından doğrudan erişilebilen ve URL ile eşleştirilen bileşenlerdir.
+    - Sayfalar ve Routing: Sayfalar genellikle '@page' direktifi ile başlar ve belirli bir URL ile eşleştirilir.
+
+    - Örnek: Index.razor, Counter.razor, gibi dosyalar sayfa bileşenleridir.
+
+    - İçerik: Sayfalar, kullanıcı etkileşimlerini ve görüntülenen içeriği barındırır.
+
+    Layouts: 'Layouts' klasörü, Blazor uygulamanızın sayfa düzenini belirleyen bileşenleri içerir. Layout bileşenleri, sayfanın genel yapısını ve stilini kontrol eder.
+    - Ana Yapı: Layout bileşenleri genellikle başlık (header), yan menü (sidebar), alt bilgi (footer) gibi ortak öğeleri içerir.
+
+    - Örnek: MainLayout.razor dosyası, çoğu Blazor projesinde varsayılan düzeni tanımlar.
+
+    - İçerik: Layout bileşenleri, sayfa içeriğinin nereye yerleştirileceğini belirlemek için @Body ifadesini kullanır.
+
+    Components: 'Components' klasörü, yeniden kullanılabilir bileşenlerinizi içerir. Bileşenler, Blazor uygulamasının temel yapı taşlarıdır ve sayfaların, layoutların veya diğer bileşenlerin içinde kullanılabilirler.
+
+    - Yeniden Kullanılabilirlik: Bileşenler, belirli bir işlevselliği veya kullanıcı arayüzü elemanını kapsüller ve farklı yerlerde tekrar kullanılabilir.
+
+    - Örnek: MyButton.razor, UserProfile.razor gibi dosyalar bileşenlerdir.
+
+    - İçerik: Bileşenler, genellikle belirli bir işlevi yerine getiren ve diğer bileşenler veya sayfalar tarafından kullanılabilen bağımsız parçalar içerir.
+    */
+
+
+    /*
+    @page Direktifi Nedir?
+
+    '@page' direktifi, Blazor bileşenini bir sayfa olarak tanımlar. Bu direktifi kullanarak bileşenin belirli bir URL'ye karşılık gelmesini sağlarsınız. '@page' direktifi, bileşenin bir URL isteğine yanıt vermesi gerektiğini belirtir.
+
+     @page Direktifi KULLANILDIĞINDA;
+       - URL Tanımlama: '@page' direktifi ile bileşenin(component) URL'si belirlenir. Örneğin, @page "/counter" ifadesi, bileşenin(component) /counter URL'si ile eşleştiğini belirtir.
+
+       - Routing: Blazor Router, URL'yi bileşene(component) yönlendirir. Yani, kullanıcı tarayıcıda /counter URL'sine gittiğinde, ilgili bileşen(component) gösterilir.
+
+       - Navigasyon: Uygulamanın içinde 'NavLink' veya 'NavigationManager' kullanarak bu bileşene geçiş yapabilirsiniz.
+
+       - Bileşen Yaşam Döngüsü: Sayfa yüklendiğinde, bileşenin(component) yaşam döngüsü metotları (OnInitialized, OnParametersSet, vb.) çağrılır ve bileşen(component) render edilir.
+
+    @page Direktifi KULLANILMADIĞINDA;
+    - Sayfa Olarak Tanımlanmamış: Bileşen(component) bir sayfa olarak tanımlanmaz, dolayısıyla doğrudan bir URL ile ilişkilendirilmez.
+
+    - Routing Yapılamaz: URL doğrudan bu bileşene(component) yönlendirilemez. Yani, tarayıcıda doğrudan bu bileşeni(component) görmek için bir URL kullanılamaz.
+
+    - Diğer Bileşenler İçinde Kullanım: Bu bileşen(component), diğer bileşenler(component) içinde bir alt bileşen(component) olarak kullanılabilir. '@page' direktifi olmayan bileşenler(component) genellikle bu şekilde kullanılır.
+
+    - Navigasyon Yapılamaz: 'NavLink' veya 'NavigationManager' kullanarak doğrudan bu bileşene(component) geçiş yapılamaz.
+
+    '@page' direktifi, bir bileşeni URL ile eşleştirip sayfa olarak kullanılmasını sağlar. Eğer @page direktifi kullanılmazsa, bileşen yalnızca diğer bileşenler içinde bir alt bileşen olarak kullanılabilir ve doğrudan bir URL ile ilişkilendirilmez. Bu şekilde, uygulamanın navigasyon ve sayfa yapısını yönetebilirsiniz.
+    */
+}
