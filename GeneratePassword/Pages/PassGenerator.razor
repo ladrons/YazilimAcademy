@@ -12,7 +12,7 @@
                 <input @bind="password" readonly="readonly" type="text" class="form-control" />
 
                 <button class="btn btn-outline-secondary" type="button">📄 Copy</button>
-                <button @onclick="HandleGeneratePassword"
+                <button @onclick="GeneratePassword"
                         class="btn btn-outline-secondary" type="button">
                     🔄 Generate
                 </button>
@@ -38,21 +38,21 @@
 
                 <div class="d-flex flex-column justify-content-center">
                     <div class="form-check mb-2">
-                        <input @onchange="RadioChanged"
-                               class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="option1">
+                        <input @onchange="SetBasicLetters"
+                               class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
                         <label class="form-check-label" for="flexRadioDefault1">
                             Easy to say
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input @onchange="RadioChanged"
-                               class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="option2">
+                        <input @onchange="SetReadableCharacters"
+                               class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                         <label class="form-check-label" for="flexRadioDefault2">
                             Easy to read
                         </label>
                     </div>
                     <div class="form-check mb-2">
-                        <input @onchange="RadioChanged"
+                        <input @onchange="SetAllCharacters"
                                class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
                         <label class="form-check-label" for="flexRadioDefault2">
                             All characters
@@ -62,34 +62,30 @@
 
                 <div class="d-flex flex-column">
                     <div class="form-check mb-3">
-                        <input @onchange="@(() => UpdatePassCriteria("upper"))"
-                               checked="@containsUppercase"
+                        <input @bind="containsUppercase" @bind:after="GeneratePassword"
                                class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             Uppercase
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input @onchange="@(() => UpdatePassCriteria("lower"))"
-                               checked="@containsLowercase"
+                        <input @bind="containsLowercase" @bind:after="GeneratePassword"
                                class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             Lowercase
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input @onchange="@(() => UpdatePassCriteria("number"))"
+                        <input @bind="containsNumbers" @bind:after="GeneratePassword"
                                disabled="@disableNumbers"
-                               checked="@containsNumbers"
                                class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             Numbers
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input @onchange="@(() => UpdatePassCriteria("symbol"))"
+                        <input @bind="containsSymbols" @bind:after="GeneratePassword"
                                disabled="@disableSymbols"
-                               checked="@containsSymbols"
                                class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             Symbols
@@ -117,29 +113,53 @@
 </div>
 
 @code {
+    //Şifre oluşturmak için gereken Random değişkeni
     private static Random random = new Random();
+
+    //Şifre oluşturmak için gereken StringBuilder değişkeni
     private static StringBuilder strBuilder = new StringBuilder();
 
-    private List<string> savedPasswords = new();
-
+    //Oluşturulan şifrenin tutulduğu değişken
     private string password = string.Empty;
+
+    //Şifre uzunluğunu belirleyen değişken
     private int passwordLength = 24;
 
+    //Kaydedilen şifrelerin tutulduğu liste
+    private List<string> savedPasswords = new();
+
+    //Şifre oluştururken kullanılacak karakterlerin belirlendiği değişkenler
     private bool containsUppercase = true;
     private bool containsLowercase = false;
     private bool containsNumbers = false;
     private bool containsSymbols = false;
 
+    //İlgili değişkenlerin disable edilip edilmeyeceğini belirleyen değişkenler
     private bool disableNumbers = false;
     private bool disableSymbols = false;
 
+    //Kullanılacak karakterlerin belirlendiği değişkenler
     private const string lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
     private const string uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     private const string numbers = "0123456789";
     private const string symbols = "!@#$%&*()_+-={};:?";
 
-    private void HandleGeneratePassword()
+
+    // Metodlar ve Eventler \\
+
+
+    /// <summary>
+    /// Bu metod sayesinde sayfa yüklendiğinde şifre oluşturulur.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        GeneratePassword();
+    }
+
+    /// <summary>
+    /// Bu metod ilgili değişkenleri kontrol ederek belirli kurallara göre şifre oluşturur. 
+    /// </summary>
+    private void GeneratePassword()
     {
         var validChars = new StringBuilder();
 
@@ -166,6 +186,9 @@
         else { password = "Lütfen en az 1 adet textbox seçiniz."; }
     }
 
+    /// <summary>
+    /// Oluşturulan şifreyi bir listeye kaydeder. Listede aynı değer varsa kayıt işlemi GERÇEKLEŞMEZ. Boş kayıt KABUL EDİLMEZ.
+    /// </summary>
     private void HandleSavePasswords()
     {
         if (string.IsNullOrEmpty(password) || savedPasswords.Contains(password))
@@ -174,6 +197,71 @@
         savedPasswords.Insert(0, password);
     }
 
+    /// <summary>
+    /// Şifrenin söylenilebilecek seviyede oluşması için değerleri günceller. (Sayı ve sembol özellikleri kilitlenir)
+    /// </summary>
+    private void SetBasicLetters()
+    {
+        containsLowercase = true;
+        containsUppercase = true;
+        containsNumbers = false;
+        containsSymbols = false;
+
+        disableNumbers = true;
+        disableSymbols = true;
+
+        GeneratePassword();
+    }
+
+    /// <summary>
+    /// Şifrenin okunabilecek seviyede oluşması için değerleri günceller.
+    /// </summary>
+    private void SetReadableCharacters()
+    {
+        containsLowercase = true;
+        containsUppercase = true;
+        containsNumbers = false;
+        containsSymbols = false;
+
+        disableNumbers = false;
+        disableSymbols = false;
+
+        GeneratePassword();
+    }
+
+    /// <summary>
+    /// Bütün seçenekleri kullanarak şifre oluşturulması için değerleri günceller.
+    /// </summary>
+    private void SetAllCharacters()
+    {
+        containsLowercase = true;
+        containsUppercase = true;
+        containsNumbers = true;
+        containsSymbols = true;
+
+        disableNumbers = false;
+        disableSymbols = false;
+
+        GeneratePassword();
+    }
+
+    /// <summary>
+    /// Will be updated later
+    /// </summary>
+    /// <param name="e"></param>
+    private void RangeChanged(ChangeEventArgs e)
+    {
+        passwordLength = int.Parse(e.Value.ToString());
+        GeneratePassword();
+    }
+}
+
+
+<!--
+    
+Old Methods
+
+            **** CHECKBOX İÇİN ESKİ METOD ****
     private void UpdatePassCriteria(string criteria)
     {
         switch (criteria)
@@ -194,9 +282,9 @@
             default:
                 break;
         }
-    }
 
-    private void RadioChanged(ChangeEventArgs e)
+            **** RADIOBUTTON İÇİN ESKİ METOD ****
+        private void RadioChanged(ChangeEventArgs e)
     {
         string selectedOption = e.Value.ToString();
 
@@ -228,10 +316,4 @@
                 break;
         }
     }
-
-    private void RangeChanged(ChangeEventArgs e)
-    {
-        passwordLength = int.Parse(e.Value.ToString());
-        HandleGeneratePassword();
-    }
-}
+-->
