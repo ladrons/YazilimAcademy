@@ -1,4 +1,15 @@
-﻿@code {
+﻿@inject NavigationManager Navigation
+
+@code {
+
+    //'NavigationManager' sınıfı, Blazor uygulamasının navigasyon işlemlerini yönetir. Bu sınıf, uygulamanın URL'sini değiştirmek ve sayfalar arasında geçiş yapmak için kullanılır. Aşağıda bulunan metod bu sınıfı kullanarak sayfa yönlendirmesi yapılmasına örnek verir.
+    public void RedirectToCounterPage()
+    {
+        Navigation.NavigateTo("/counter");
+    }
+
+    //--------------------------------------------------------------------------------------------------------------
+
     /*
     Pages, Layouts ve Components Klasörleri ve Anlamları.
 
@@ -25,6 +36,7 @@
     - İçerik: Bileşenler, genellikle belirli bir işlevi yerine getiren ve diğer bileşenler veya sayfalar tarafından kullanılabilen bağımsız parçalar içerir.
     */
 
+   //--------------------------------------------------------------------------------------------------------------
 
     /*
     @page Direktifi Nedir?
