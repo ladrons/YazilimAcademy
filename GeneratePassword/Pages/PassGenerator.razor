@@ -1,6 +1,9 @@
 ﻿@page "/passwordGenerator"
 @using System.Text
 
+@inject NavigationManager Navigation
+@inject IToastService ToastService
+
 <div class="container">
     <div class="card mt-2">
         <div class="card-header" style="text-align:center">
@@ -11,7 +14,9 @@
             <div class="input-group mb-3">
                 <input @bind="password" readonly="readonly" type="text" class="form-control" />
 
-                <button class="btn btn-outline-secondary" type="button">📄 Copy</button>
+                <button class="btn btn-outline-secondary" type="button">
+                    📄 Copy
+                </button>
                 <button @onclick="GeneratePassword"
                         class="btn btn-outline-secondary" type="button">
                     🔄 Generate
@@ -27,7 +32,8 @@
             <div class="d-flex justify-content-around">
                 <div class="d-flex align-items-center">
                     <div>
-                        <input type="number" min="6" max="32" value="@passwordLength" class="form-control" style="max-width: 65px" />
+                        <input @onchange="RangeChanged"
+                               type="number" min="6" max="32" value="@passwordLength" class="form-control" style="max-width: 65px" />
                     </div>
                     <div class="ms-3">
                         <label for="customRange1">Password Lenght</label>
@@ -103,7 +109,7 @@
 
         <div class="card-body">
             <ul class="list-group">
-                @foreach (string savePassword in savedPasswords)
+                @foreach (string savePassword in savedPasswords.Reverse())
                 {
                     <li class="list-group-item">@savePassword</li>
                 }
@@ -126,7 +132,7 @@
     private int passwordLength = 24;
 
     //Kaydedilen şifrelerin tutulduğu liste
-    private List<string> savedPasswords = new();
+    private HashSet<string> savedPasswords = new();
 
     //Şifre oluştururken kullanılacak karakterlerin belirlendiği değişkenler
     private bool containsUppercase = true;
@@ -146,8 +152,6 @@
 
 
     // Metodlar ve Eventler \\
-
-
     /// <summary>
     /// Bu metod sayesinde sayfa yüklendiğinde şifre oluşturulur.
     /// </summary>
@@ -157,7 +161,7 @@
     }
 
     /// <summary>
-    /// Bu metod ilgili değişkenleri kontrol ederek belirli kurallara göre şifre oluşturur. 
+    /// Bu metod ilgili değişkenleri kontrol ederek belirli kurallara göre şifre oluşturur.
     /// </summary>
     private void GeneratePassword()
     {
@@ -194,7 +198,9 @@
         if (string.IsNullOrEmpty(password) || savedPasswords.Contains(password))
             return;
 
-        savedPasswords.Insert(0, password);
+            savedPasswords.Add(password);
+
+        ToastService.ShowSuccess("The selected password saved!");
     }
 
     /// <summary>
@@ -251,69 +257,10 @@
     /// <param name="e"></param>
     private void RangeChanged(ChangeEventArgs e)
     {
-        passwordLength = int.Parse(e.Value.ToString());
+        if (e.Value == null)
+            return;
+
+        passwordLength = Convert.ToInt32(e.Value);
         GeneratePassword();
     }
 }
-
-
-<!--
-    
-Old Methods
-
-            **** CHECKBOX İÇİN ESKİ METOD ****
-    private void UpdatePassCriteria(string criteria)
-    {
-        switch (criteria)
-        {
-            case "upper":
-                containsUppercase = !containsUppercase;
-                break;
-            case "lower":
-                containsLowercase = !containsLowercase;
-                break;
-            case "number":
-                containsNumbers = !containsNumbers;
-                break;
-            case "symbol":
-                containsSymbols = !containsSymbols;
-                break;
-
-            default:
-                break;
-        }
-
-            **** RADIOBUTTON İÇİN ESKİ METOD ****
-        private void RadioChanged(ChangeEventArgs e)
-    {
-        string selectedOption = e.Value.ToString();
-
-        switch (selectedOption)
-        {
-            case "option1":
-                containsLowercase = true;
-                containsUppercase = true;
-                containsNumbers = false;
-                containsSymbols = false;
-
-                disableNumbers = true;
-                disableSymbols = true;
-                break;
-
-            case "option2":
-                disableNumbers = false;
-                disableSymbols = false;
-                break;
-
-            default:
-                disableNumbers = false;
-                disableSymbols = false;
-
-                containsLowercase = true;
-                containsUppercase = true;
-                containsNumbers = true;
-                containsSymbols = true;
-                break;
-        }
-    }
--->
