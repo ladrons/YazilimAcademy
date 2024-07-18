@@ -111,7 +111,8 @@
             <ul class="list-group">
                 @foreach (string savePassword in savedPasswords.Reverse())
                 {
-                    <li class="list-group-item">@savePassword</li>
+                    SetPasswordColor(savePassword);
+                    <li class="list-group-item" style="@passwordColor">@savePassword</li>
                 }
             </ul>
         </div>
@@ -130,6 +131,9 @@
 
     //Şifre uzunluğunu belirleyen değişken
     private int passwordLength = 24;
+
+    //Şifrenin uzunluğuna göre rengini belirleyen değişken
+    private string passwordColor = string.Empty;
 
     //Kaydedilen şifrelerin tutulduğu liste
     private HashSet<string> savedPasswords = new();
@@ -198,7 +202,7 @@
         if (string.IsNullOrEmpty(password) || savedPasswords.Contains(password))
             return;
 
-            savedPasswords.Add(password);
+        savedPasswords.Add(password);
 
         ToastService.ShowSuccess("The selected password saved!");
     }
@@ -262,5 +266,23 @@
 
         passwordLength = Convert.ToInt32(e.Value);
         GeneratePassword();
+    }
+
+    private void SetPasswordColor(string password)
+    {
+        //Gelen password değerini kontrol edecek. Değer 6 karakterden küçükse şifre kırmızı renk ile kaydedilecek. Değer 7-12 arasında ise şifre sarı renk ile kaydedilecek. Değer 13 ve üzeri ise şifre yeşil renk ile kaydedilecek.
+
+        if (password.Length <= 8)
+        {
+            passwordColor = "color:red";
+        }
+        else if (password.Length >= 9 && password.Length <= 16)
+        {
+            passwordColor = "color:orange";
+        }
+        else
+        {
+            passwordColor = "color:green";
+        }
     }
 }
