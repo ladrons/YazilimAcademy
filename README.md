@@ -32,6 +32,8 @@ Bu yenilikçi uygulama, OpenAI'ın API hizmetini kullanarak ChatGPT ve DALL-E'yi
 - 🔧 Özelleştirilebilir resim sayısı ve çözünürlük seçenekleri
 - 🎨 Yaratıcı ve özgün görsel içerik oluşturma
 
+Ayrıca ChatGPT ve Dall-E Clone örneği için bu repo'ya göz atabilirsiniz: [ladrons | NexusAI](https://github.com/ladrons/NexusAI)
+
 &nbsp;
 
 **Güncellemeler** ve **yeni projeler** için bu repoyu takip etmeyi unutmayın!
