@@ -7,6 +7,7 @@ Bu proje, **'Fullstack Blazor Bootcamp'** boyunca edindiğim ve öğrendiğim t�
 ### Mevcut Projeler:
 - [PasswordGenerator](#passwordgenerator-uygulaması)
 - [ChatGPT ve DALL-E Clone](#chatgpt-ve-dall-e-clone)
+- [Gift Suggestion](#gift-suggestion-uygulaması)
 
 &nbsp;
 
@@ -34,6 +35,12 @@ Bu yenilikçi uygulama, OpenAI'ın API hizmetini kullanarak ChatGPT ve DALL-E'yi
 
 Ayrıca ChatGPT ve Dall-E Clone örneği için bu repo'ya göz atabilirsiniz: [ladrons | NexusAI](https://github.com/ladrons/NexusAI)
 
+### Gift Suggestion Uygulaması:
+'Gift Suggestion', AI destekli bir hediye önerme uygulamasıdır. Uygulamanın sunduğu özellikler:
+- 👤 Hediye alacağınız kişiyle olan ilişkinizi seçme imkanı.
+- 🎂 Hediye alacağınız kişinin yaşını belirleme seçeneği.
+- 🚻 Cinsiyetini seçebilme özelliği.
+
 &nbsp;
 
 **Güncellemeler** ve **yeni projeler** için bu repoyu takip etmeyi unutmayın!
@@ -45,3 +52,4 @@ Ayrıca ChatGPT ve Dall-E Clone örneği için bu repo'ya göz atabilirsiniz: [l
 - [Mevcut Projeler](#mevcut-projeler)
   - [PasswordGenerator](#passwordgenerator-uygulaması)
   - [ChatGPT ve DALL-E Clone](#chatgpt-ve-dall-e-clone)
+  - [Gift Suggestion](#gift-suggestion-uygulaması)
