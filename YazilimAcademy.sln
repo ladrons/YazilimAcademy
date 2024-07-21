@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeneratePassword", "Generat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorOpenAIStarter", "BlazorOpenAIStarter\BlazorOpenAIStarter.csproj", "{41A89012-3FA4-407F-93FE-416C81A6E776}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GiftSuggestionApp", "GiftSuggestionApp\GiftSuggestionApp.csproj", "{46255F22-BED6-4A00-977E-BDF928811C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GiftSuggestionApp", "GiftSuggestionApp\GiftSuggestionApp.csproj", "{46255F22-BED6-4A00-977E-BDF928811C1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

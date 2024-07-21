@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using GiftSuggestionApp;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -14,5 +15,7 @@ var openAIApiKey = builder.Configuration
     .Value;
 
 builder.Services.AddOpenAIService(settings => settings.ApiKey = openAIApiKey);
+
+builder.Services.AddBlazoredModal();
 
 await builder.Build().RunAsync();

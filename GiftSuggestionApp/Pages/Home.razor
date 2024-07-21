@@ -1,6 +1,14 @@
 ﻿@page "/"
 @using System.ComponentModel.DataAnnotations
+@using GiftSuggestionApp.Components
 @using GiftSuggestionApp.Enums
+@using Markdig
+@using OpenAI.Interfaces
+@using OpenAI.ObjectModels
+@using OpenAI.ObjectModels.RequestModels
+@using System.Text
+
+@inject IOpenAIService openAiService
 
 <PageTitle>Home</PageTitle>
 
@@ -12,12 +20,12 @@
             <EditForm Model="formModel" OnValidSubmit="HandleFormSubmit" novalidate>
                 <DataAnnotationsValidator />
 
-                <div class="form-control animate__animated animate__fadeInLeft flex justify-center">
+                <div class="form-control animate__animated animate__fadeInLeft items-center flex justify-center">
                     <div class="w-full max-w-xs">
                         <label class="label">
                             <span class="label-text">Relationship</span>
                         </label>
-                        <InputSelect @bind-Value="formModel.Relationship" class="select select-bordered w-full">
+                        <InputSelect @bind-Value="formModel.Relationship" @oninput="HandleRelationshipChange" class="select select-bordered w-full">
                             <option disabled="disabled" selected="selected">Select a Relationship</option>
                             @foreach (var relationship in Enum.GetValues<RelationshipType>())
                             {
@@ -28,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="form-control animate__animated animate__fadeInRight flex justify-center">
+                <div class="form-control animate__animated animate__fadeInRight items-center flex justify-center">
                     <div class="w-full max-w-xs">
                         <label class="label">
                             <span class="label-text">Gender</span>
@@ -48,7 +56,7 @@
                     </div>
                 </div>
 
-                <div class="form-control animate__animated animate__fadeInLeft flex justify-center">
+                <div class="form-control animate__animated animate__fadeInLeft items-center flex justify-center">
                     <div class="w-full max-w-xs">
                         <label class="label">
                             <span class="label-text">Age</span>
@@ -58,7 +66,7 @@
                     </div>
                 </div>
 
-                <div class="form-control animate__animated animate__fadeInRight flex justify-center">
+                <div class="form-control animate__animated animate__fadeInRight items-center flex justify-center">
                     <div class="w-full max-w-xs">
                         <label class="label">
                             <span class="label-text">Budget in $</span>
@@ -68,9 +76,15 @@
                     </div>
                 </div>
 
-                <div class="form-control mt-6 animate__animated animate__fadeInUp flex justify-center">
+                <div class="form-control mt-6 animate__animated animate__fadeInUp items-center flex justify-center">
                     <div class="w-full max-w-xs">
-                        <button type="submit" class="btn btn-primary w-full hover:scale-105 transition-transform">Submit 🎁</button>
+                        <button type="submit" class="btn btn-primary w-full hover:scale-105 transition-transform" disabled="@isLoading">
+                            @if (isLoading)
+                            {
+                                <span class="loading loading-spinner loading-sm"></span>
+                            }
+                            Submit 🎁
+                        </button>
                     </div>
                 </div>
             </EditForm>
@@ -78,14 +92,98 @@
     </div>
 </div>
 
+@if (isLoading)
+{
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-base-300 p-6 rounded-lg shadow-xl">
+            <div class="flex flex-col items-center">
+                <div class="loading loading-spinner loading-lg"></div>
+                <p class="mt-4 text-lg font-semibold">Loading gift suggestions...</p>
+            </div>
+        </div>
+    </div>
+}
+
+
 @code
 {
+    [CascadingParameter] public IModalService Modal { get; set; }
+
+    private static StringBuilder prompBuilder = new StringBuilder();
+
     private FormModel formModel = new FormModel();
+
+    private bool isLoading = false;
 
     private async Task HandleFormSubmit()
     {
-        await Task.CompletedTask;
+        try
+        {
+            isLoading = true;
+
+            BuildThePrompt();
+
+            var completionResult = await openAiService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
+                {
+                    Messages = new List<ChatMessage>
+                {
+                    ChatMessage.FromSystem(AssistantsPrompt),
+                    ChatMessage.FromUser(prompBuilder.ToString())
+                },
+                    Model = Models.Gpt_4o,
+                });
+            if (completionResult.Successful)
+            {
+                var gptContent = completionResult.Choices.First().Message.Content;
+
+                var pipeline = new MarkdownPipelineBuilder().UseBootstrap().Build();
+                var htmlContent = Markdown.ToHtml(gptContent, pipeline);
+
+                var parameters = new ModalParameters()
+                    .Add("GeneratedHtml", htmlContent);
+
+                Modal.Show<GiftResultsModal>(parameters);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
+
+    private void HandleRelationshipChange(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+            return;
+
+        var relationalship = Enum.Parse<RelationshipType>(args.Value.ToString());
+
+        if (relationalship == RelationshipType.Sister)
+            formModel.Gender = Gender.Female;
+
+        if (relationalship == RelationshipType.Brother)
+            formModel.Gender = Gender.Male;
+    }
+
+    private void BuildThePrompt()
+    {
+        prompBuilder.Clear();
+
+        prompBuilder.AppendLine(PromptIntroductionText);
+
+        prompBuilder.AppendLine($"<Relationship>{formModel.Relationship}</Relationship>");
+        prompBuilder.AppendLine($"<Gender>{formModel.Gender}</Gender>");
+        prompBuilder.AppendLine($"<Age>{formModel.Age}</Age>");
+        prompBuilder.AppendLine($"<BugdetInDollars>{formModel.Budget}</BugdetInDollars>");
+    }
+
+    private const string AssistantsPrompt = "You're a world-class Birthday gift assistant for Turkish people. You know how to select the best gift for the person and make the person happy! Don't be so general. Be a little bit more specific when it comes to gifts. Don't include any extra explanations in your responses!";
+    private const string PromptIntroductionText = "Please list seven gift ideas with very short descriptions in Markdown format and add emojis to the beginning of each line that match the gift idea with the specifications below. If I like your suggestions, I'll tip you $5000 for your help.";
 
     protected class FormModel
     {
