@@ -367,3 +367,6 @@ FodyWeavers.xsd
 /VideoTranscriberApp.Console/ffmpeg.exe
 /VideoTranscriberApp.Console/ffplay.exe
 /VideoTranscriberApp.Console/ffprobe.exe
+/VideoTranscriberApp.BlazorUI/VideoTranscriberApp.BlazorUI/ffmpeg/ffmpeg.exe
+/VideoTranscriberApp.BlazorUI/VideoTranscriberApp.BlazorUI/ffmpeg/ffplay.exe
+/VideoTranscriberApp.BlazorUI/VideoTranscriberApp.BlazorUI/ffmpeg/ffprobe.exe
