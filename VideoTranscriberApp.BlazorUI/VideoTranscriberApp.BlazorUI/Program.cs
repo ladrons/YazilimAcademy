@@ -1,3 +1,4 @@
+using OpenAI.Extensions;
 using VideoTranscriberApp.BlazorUI.Client.Pages;
 using VideoTranscriberApp.BlazorUI.Components;
 
@@ -11,6 +12,12 @@ builder.Services.AddRazorComponents()
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5110/api/") });
 
 builder.Services.AddControllers();
+
+var openAIApiKey = builder.Configuration
+    .GetSection("OpenAIApiKey")
+    .Value;
+
+builder.Services.AddOpenAIService(settings => settings.ApiKey = openAIApiKey);
 
 var app = builder.Build();
 

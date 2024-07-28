@@ -1,6 +1,7 @@
 ﻿@page "/wasm-transcribe"
 
 @using System.ComponentModel.DataAnnotations
+@using VideoTranscriberApp.BlazorUI.Client.Components
 
 @rendermode InteractiveWebAssembly
 
@@ -39,13 +40,16 @@
                     <ValidationMessage For="@(() => model.VideoFile)" />
                 </div>
 
-                <button type="submit" class="btn btn-primary w-full @(IsUploading ? "loading" : "")" disabled="@(!model.IsFileSelected || IsUploading)">
-                    @if (IsUploading)
-                    {
-                        <span class="loading loading-spinner"></span>
-                    }
-                    Upload and Transcribe
-                </button>
+                <DaisyButton Type="submit" Style="@Client.Enums.ButtonStyle.Success" Text="Upload And Transcribe" CssClass="w-full"
+                             IsDisabled="@(!model.IsFileSelected || IsUploading)" />
+
+                @* <button type="submit" class="btn btn-primary w-full @(IsUploading ? "loading" : "")" disabled="@(!model.IsFileSelected || IsUploading)">
+                @if (IsUploading)
+                {
+                <span class="loading loading-spinner"></span>
+                }
+                Upload and Transcribe
+                </button> *@
             </EditForm>
 
             @if (!string.IsNullOrEmpty(ErrorMessage))
@@ -124,7 +128,7 @@
 
             if (response.IsSuccessStatusCode)
             {
-                // Transcriptions = await response.Content.ReadFromJsonAsync<List<TranscriptionModel>>() ?? [];
+                Transcriptions = await response.Content.ReadFromJsonAsync<List<TranscriptionModel>>() ?? [];
                 SuccessMessage = "Video uploaded and transcribed successfully!";
             }
             else
