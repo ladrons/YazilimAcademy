@@ -4,12 +4,12 @@
 
 Bu proje, **'Fullstack Blazor Bootcamp'** boyunca edindiğim ve öğrendiğim tüm bilgileri içerecektir. Ayrıca, bu süreçte öğrendiğim bilgileri kullanarak yeni projeler geliştirecek ve yine bu repo üzerinden paylaşacağım.
 
-### Mevcut Projeler:
-- [PasswordGenerator](#passwordgenerator-uygulaması)
-- [ChatGPT ve DALL-E Clone](#chatgpt-ve-dall-e-clone)
-- [Gift Suggestion](#gift-suggestion-uygulaması)
-
-&nbsp;
+### İçindekiler:
+- [Fullstack Blazor Bootcamp](#fullstack-blazor-bootcamp)
+  - [Password Generator](#passwordgenerator-uygulaması)
+  - [ChatGPT ve DALL-E Clone](#chatgpt-ve-dall-e-clone)
+  - [Gift Suggestion](#gift-suggestion-uygulaması)
+  - [Video Transcriber](#video-transcriber-uygulaması)
 
 ### PasswordGenerator Uygulaması:
 'PasswordGenerator' Blazor Web Assembly ile geliştirilmiş, basit ama etkili bir şifre oluşturma uygulamasıdır. Uygulamanın sunduğu özellikler:
@@ -41,15 +41,18 @@ Ayrıca ChatGPT ve Dall-E Clone örneği için bu repo'ya göz atabilirsiniz: [l
 - 🎂 Hediye alacağınız kişinin yaşını belirleme seçeneği.
 - 🚻 Cinsiyetini seçebilme özelliği.
 
+Ayrıca hediye uygulaması örneği için bu repo'ya göz atabilirsiniz: *'PROJE_EKLENECEK'*
+
+### Video Transcriber Uygulaması:
+'Video Transcriber', verilen video dosyasını AI hizmetleri sayesinde seçeceğiniz dillere çevirir. Bazı özellikleri aşağıda paylaşılmıştır:
+-   🎥 Verdiğiniz MP4 dosyasını MP3 formatına dönüştürür.
+-   🌐 MP3 dosyasını seçtiğiniz dillere çevirir.
+-   🌍 Birden fazla dil seçebilme imkanı sunar.
+
+Ayrıca AI hizmeti entegreli video transcriber projesi için bu repo'ya göz atabilirsiniz: *'PROJE_EKLENECEK'*
+
 &nbsp;
 
 **Güncellemeler** ve **yeni projeler** için bu repoyu takip etmeyi unutmayın!
 
 ---
-
-### İçindekiler:
-- [Fullstack Blazor Bootcamp](#fullstack-blazor-bootcamp)
-- [Mevcut Projeler](#mevcut-projeler)
-  - [PasswordGenerator](#passwordgenerator-uygulaması)
-  - [ChatGPT ve DALL-E Clone](#chatgpt-ve-dall-e-clone)
-  - [Gift Suggestion](#gift-suggestion-uygulaması)
