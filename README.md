@@ -41,7 +41,8 @@ Ayrıca ChatGPT ve Dall-E Clone örneği için bu repo'ya göz atabilirsiniz: [l
 - 🎂 Hediye alacağınız kişinin yaşını belirleme seçeneği.
 - 🚻 Cinsiyetini seçebilme özelliği.
 
-Ayrıca hediye uygulaması örneği için bu repo'ya göz atabilirsiniz: *'PROJE_EKLENECEK'*
+Ayrıca hediye uygulaması örneği için bu repo'ya göz atabilirsiniz: [ladrons | GiftGuru](https://github.com/ladrons/GiftGuru)
+
 
 ### Video Transcriber Uygulaması:
 'Video Transcriber', verilen video dosyasını AI hizmetleri sayesinde seçeceğiniz dillere çevirir. Bazı özellikleri aşağıda paylaşılmıştır:
